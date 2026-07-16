@@ -27,6 +27,7 @@ import type {
   GitHubAssignableUser,
   GitHubCommentResult,
   GitHubCreateIssueResult,
+  GitHubOwnerRepo,
   GitHubWorkItem,
   JiraProjectStatusOrder,
   GitPushTarget,
@@ -1345,7 +1346,7 @@ const api = {
       sourceContext?: TaskSourceContext | null
       prNumber: number
       headSha?: string
-      prRepo?: { owner: string; repo: string } | null
+      prRepo?: GitHubOwnerRepo | null
       noCache?: boolean
     }): Promise<unknown[]> => ipcRenderer.invoke('gh:prChecks', args),
 
@@ -1357,7 +1358,7 @@ const api = {
       workflowRunId?: number
       checkName?: string
       url?: string | null
-      prRepo?: { owner: string; repo: string } | null
+      prRepo?: GitHubOwnerRepo | null
     }): Promise<unknown | null> => ipcRenderer.invoke('gh:prCheckDetails', args),
 
     rerunPRChecks: (args: {
@@ -1375,7 +1376,7 @@ const api = {
       repoId?: string
       sourceContext?: TaskSourceContext | null
       prNumber: number
-      prRepo?: { owner: string; repo: string } | null
+      prRepo?: GitHubOwnerRepo | null
       noCache?: boolean
     }): Promise<unknown[]> => ipcRenderer.invoke('gh:prComments', args),
 
@@ -1402,7 +1403,7 @@ const api = {
       repoId?: string
       prNumber: number
       title: string
-      prRepo?: { owner: string; repo: string } | null
+      prRepo?: GitHubOwnerRepo | null
     }): Promise<boolean> => ipcRenderer.invoke('gh:updatePRTitle', args),
 
     mergePR: (args: {
@@ -1411,7 +1412,7 @@ const api = {
       sourceContext?: TaskSourceContext | null
       prNumber: number
       method?: 'merge' | 'squash' | 'rebase'
-      prRepo?: { owner: string; repo: string } | null
+      prRepo?: GitHubOwnerRepo | null
     }): Promise<{ ok: true } | { ok: false; error: string }> =>
       ipcRenderer.invoke('gh:mergePR', args),
 
@@ -1422,7 +1423,7 @@ const api = {
       prNumber: number
       enabled: boolean
       method?: 'merge' | 'squash' | 'rebase'
-      prRepo?: { owner: string; repo: string } | null
+      prRepo?: GitHubOwnerRepo | null
     }): Promise<{ ok: true } | { ok: false; error: string }> =>
       ipcRenderer.invoke('gh:setPRAutoMerge', args),
 
@@ -1469,7 +1470,7 @@ const api = {
       number: number
       body: string
       type?: 'issue' | 'pr'
-      prRepo?: { owner: string; repo: string } | null
+      prRepo?: GitHubOwnerRepo | null
     }): Promise<GitHubCommentResult> => ipcRenderer.invoke('gh:addIssueComment', args),
 
     addPRReviewCommentReply: (args: {
@@ -1482,7 +1483,7 @@ const api = {
       threadId?: string
       path?: string
       line?: number
-      prRepo?: { owner: string; repo: string } | null
+      prRepo?: GitHubOwnerRepo | null
     }): Promise<GitHubCommentResult> => ipcRenderer.invoke('gh:addPRReviewCommentReply', args),
 
     addPRReviewComment: (args: {
