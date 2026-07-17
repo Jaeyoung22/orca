@@ -1549,6 +1549,7 @@ export type PreloadApi = {
       repoId?: string
       owner: string
       repo: string
+      host?: string
       number: number
       type: 'issue' | 'pr'
     }) => Promise<Omit<GitHubWorkItem, 'repoId'> | null>
